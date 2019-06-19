@@ -1,12 +1,13 @@
 package com.spring.thymeleaf.Spring_Thymeleaf.controller;
 
 import com.spring.thymeleaf.Spring_Thymeleaf.model.Employee;
-import com.spring.thymeleaf.Spring_Thymeleaf.model.EmployeeForm;
+
 import com.spring.thymeleaf.Spring_Thymeleaf.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,7 +29,7 @@ public class MainController {
   @Autowired
   private EmployeeRepository repository;
   
-  @RequestMapping(value = {"/", "/index"}, method = RequestMethod.GET)
+  @GetMapping(value = {"/", "/index"})
   public String index(Model model) {
 	
 	model.addAttribute("message", message);
@@ -36,7 +37,7 @@ public class MainController {
 	return "index";
   }
   
-  @RequestMapping(value = {"/employeeList"}, method = RequestMethod.GET)
+  @GetMapping(value = {"/employeeList"})
   public String personList(Model model) {
 	
 	List<Employee> list = new ArrayList<>();
@@ -50,7 +51,8 @@ public class MainController {
   @RequestMapping(value = {"/addEmployee"}, method = RequestMethod.GET)
   public String showAddPersonPage(Model model) {
 	
-	EmployeeForm employeeForm = new EmployeeForm();
+
+	Employee employeeForm = new Employee();
 	model.addAttribute("employeeForm", employeeForm);
 	
 	return "addEmployee";
@@ -58,7 +60,7 @@ public class MainController {
   
   @RequestMapping(value = {"/addEmployee"}, method = RequestMethod.POST)
   public String savePerson(Model model, //
-						   @ModelAttribute("employeeForm") EmployeeForm employeeForm) {
+						   @ModelAttribute("employeeForm") Employee employeeForm) {
 	
 	String firstName = employeeForm.getFirstName();
 	String lastName = employeeForm.getLastName();
